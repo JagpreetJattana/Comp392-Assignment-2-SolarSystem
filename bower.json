@@ -1,0 +1,25 @@
+{
+  "name": "comp392-Assignment 2",
+  "authors": [
+    "Jagpreet Jattana"
+  ],
+  "description": "COMP392-Assignment 2 for Advanced Graphics",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "https://github.com/JagpreetJattana/COMP392-Lab3",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "Scripts/lib"
+  ],
+  "dependencies": {
+    "three.js": "threejs#*",
+    "dat-gui": "~0.5.1",
+    "stats.js": "*",
+    "threex.colliders": "*"
+  }
+}
