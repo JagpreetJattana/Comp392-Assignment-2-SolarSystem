@@ -33,6 +33,11 @@ var camera;
 var axes;
 var cube;
 var cube1;
+var sphere;
+var childsphere;
+var childsphere2;
+var sphereMaterial;
+var sphereGeometry;
 var childCube;
 var plane;
 var sphere;
@@ -57,36 +62,17 @@ function init() {
     //Add a Plane to the Scene
     plane = new gameObject(new PlaneGeometry(20, 20, 1, 1), new LambertMaterial({ color: 0x0f37ff }), 0, 0, 0);
     plane.rotation.x = -0.5 * Math.PI;
-    scene.add(plane);
+    // scene.add(plane);
     console.log("Added Plane Primitive to scene...");
-    //Add a Cube to the Scene
-    /*  cubeMaterial = new LambertMaterial({color:0x00ff00});
-      cubeGeometry = new CubeGeometry(2, 2, 2);
-      cube = new Mesh(cubeGeometry, cubeMaterial);
-      cube.castShadow = true;
-      cube.receiveShadow = true;
-      cube.position.y = 1;
-      
-      scene.add(cube);
-      console.log("Added Cube Primitive to scene...");
-      
-      cubeMaterial = new LambertMaterial({color:0x00ff00});
-      cubeGeometry = new CubeGeometry(.2, .2, .2);
-      cube1 = new Mesh(cubeGeometry, cubeMaterial);
-      cube1.castShadow = true;
-      cube1.receiveShadow = true;
-      cube1.position.y = 1;
-      cube1.position.x=4;
-      cube1.position.z=4;
-      
-      cube.add(cube1);*/
     emptyObject = new Object3D();
     emptyObject.position.set(0, 5, 0);
-    emptyObject.add(cube);
-    cube = new gameObject(new CubeGeometry(2, 2, 2), new LambertMaterial({ color: 0xff35ff }), 0, 1, 0);
-    childCube = new gameObject(new CubeGeometry(.2, .2, .2), new LambertMaterial({ color: 0xff35ff }), 0, 1, 5);
-    cube.add(childCube);
-    scene.add(cube);
+    emptyObject.add(sphere);
+    sphere = new gameObject(new SphereGeometry(2, 32, 32), new LambertMaterial({ color: 0xff35ff }), 0, 1, 0);
+    childsphere = new gameObject(new SphereGeometry(.2, .2, .2), new LambertMaterial({ color: 0xff35ff }), 0, 1, 5);
+    childsphere2 = new gameObject(new SphereGeometry(1, 32, 32), new LambertMaterial({ color: 0xff35ff }), 0, 1, 10);
+    sphere.add(childsphere);
+    sphere.add(childsphere2);
+    scene.add(sphere);
     // Add an AmbientLight to the scene
     ambientLight = new AmbientLight(0x090909);
     scene.add(ambientLight);
@@ -130,7 +116,7 @@ function addStatsObject() {
 // Setup main game loop
 function gameLoop() {
     stats.update();
-    cube.rotation.y += control.rotationSpeed;
+    sphere.rotation.y += control.rotationSpeed;
     emptyObject.rotation.z += control.rotationSpeed;
     // render using requestAnimationFrame
     requestAnimationFrame(gameLoop);
@@ -156,5 +142,4 @@ function setupCamera() {
     camera.lookAt(new Vector3(0, 0, 0));
     console.log("Finished setting up Camera...");
 }
-
 //# sourceMappingURL=game.js.map
