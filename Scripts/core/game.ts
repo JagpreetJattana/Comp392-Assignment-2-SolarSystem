@@ -80,19 +80,22 @@ function init() {
 
     plane.rotation.x = -0.5 * Math.PI;
 
-   // scene.add(plane);
+    scene.add(plane);
     console.log("Added Plane Primitive to scene...");
     
   
     emptyObject=new Object3D();
-    emptyObject.position.set(0,5,0);
-    emptyObject.add(sphere);
-    sphere=new gameObject(new SphereGeometry(2,32,32),new LambertMaterial({color:0xff35ff}),0,1,0);
+    emptyObject.position.set(0,1,0);
+  //  emptyObject.add(sphere);
+  var material = new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture('Scripts/textures/sun.jpg') } );
+  //  sphere=new gameObject(new SphereGeometry(2,32,32),new LambertMaterial({color:0xff35ff}),0,1,0);
+    sphere=new gameObject(new SphereGeometry(2,32,32),new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture('Scripts/textures/sun.jpg') } ),0,1,0);
     childsphere=new gameObject(new SphereGeometry(.2,.2,.2),new LambertMaterial({color:0xff35ff}),0,1,5);
     childsphere2=new gameObject(new SphereGeometry(1,32,32),new LambertMaterial({color:0xff35ff}),0,1,10);
     sphere.add(childsphere);
-    sphere.add(childsphere2);
+    emptyObject.add(childsphere2);
     scene.add(sphere);
+    scene.add(emptyObject);
     
     // Add an AmbientLight to the scene
     ambientLight = new AmbientLight(0x090909);
@@ -119,16 +122,10 @@ function init() {
     document.body.appendChild(renderer.domElement);
     gameLoop(); // render the scene	
     
-    window.addEventListener('resize', onResize, false);
+    
 }
 
-function onResize(): void {
-    camera.aspect = CScreen.RATIO;
-    //camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    //renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setSize(CScreen.WIDTH, CScreen.HEIGHT);
-}
+
 
 function addControl(controlObject: Control): void {
     gui.add(controlObject, 'rotationSpeed',-0.5,0.5);
@@ -147,8 +144,9 @@ function addStatsObject() {
 function gameLoop(): void {
     stats.update();
 
-    sphere.rotation.y += control.rotationSpeed;
-    emptyObject.rotation.z+=control.rotationSpeed;
+    sphere.rotation.y += .04;//control.rotationSpeed;
+    emptyObject.rotation.y+=.02;//control.rotationSpeed;
+   // sphere.rotation.y+=2;
     
     // render using requestAnimationFrame
     requestAnimationFrame(gameLoop);
