@@ -40,8 +40,11 @@ var cube: Mesh;
 var cube1:Mesh;
 
 var sphere:Mesh;
-var childsphere:Mesh;
+var childsphere1:Mesh;
 var childsphere2:Mesh;
+var childsphere3:Mesh;
+var childsphere4:Mesh;
+var childsphere5:Mesh;
 var sphereMaterial:LambertMaterial;
 var sphereGeometry:SphereGeometry;
 
@@ -57,6 +60,10 @@ var step: number = 0;
 var cubeGeometry:CubeGeometry;
 var cubeMaterial:LambertMaterial;
 var emptyObject:Object3D;
+var emptyObject3:Object3D;
+var emptyObject4:Object3D;
+var emptyObject5:Object3D;
+
 
 
 function init() {
@@ -84,18 +91,41 @@ function init() {
     console.log("Added Plane Primitive to scene...");
     
   
+    
+  //  emptyObject.add(sphere);
+ // var material = new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture('Scripts/textures/sun.jpg') } );
+    sphere=new gameObject(new SphereGeometry(3,32,32),new LambertMaterial({color:0xff35ff}),0,1,0);
+  //  sphere=new gameObject(new SphereGeometry(2,32,32),new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture('Scripts/textures/sun.jpg') } ),0,1,0);
+    childsphere1=new gameObject(new SphereGeometry(.2,.2,.2),new LambertMaterial({color:0xff35ff}),0,1,5);
+    sphere.add(childsphere1);
+    scene.add(sphere);
+    
     emptyObject=new Object3D();
     emptyObject.position.set(0,1,0);
-  //  emptyObject.add(sphere);
-  var material = new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture('Scripts/textures/sun.jpg') } );
-  //  sphere=new gameObject(new SphereGeometry(2,32,32),new LambertMaterial({color:0xff35ff}),0,1,0);
-    sphere=new gameObject(new SphereGeometry(2,32,32),new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture('Scripts/textures/sun.jpg') } ),0,1,0);
-    childsphere=new gameObject(new SphereGeometry(.2,.2,.2),new LambertMaterial({color:0xff35ff}),0,1,5);
     childsphere2=new gameObject(new SphereGeometry(1,32,32),new LambertMaterial({color:0xff35ff}),0,1,10);
-    sphere.add(childsphere);
     emptyObject.add(childsphere2);
-    scene.add(sphere);
     scene.add(emptyObject);
+    
+    
+    emptyObject3=new Object3D();
+    emptyObject3.position.set(0,1,0);
+    childsphere3=new gameObject(new SphereGeometry(.5,32,32),new LambertMaterial({color:0xff35ff}),0,1,15);
+    emptyObject3.add(childsphere3);
+    scene.add(emptyObject3);
+    
+    
+    emptyObject4=new Object3D();
+    emptyObject4.position.set(0,1,0);
+    childsphere4=new gameObject(new SphereGeometry(1.8,32,32),new LambertMaterial({color:0xff35ff}),0,1,20);
+    emptyObject4.add(childsphere4);
+    scene.add(emptyObject4);
+    
+    
+    emptyObject5=new Object3D();
+    emptyObject5.position.set(0,1,0);
+    childsphere5=new gameObject(new SphereGeometry(.8,32,32),new LambertMaterial({color:0xff35ff}),0,1,25);
+    emptyObject5.add(childsphere5);
+    scene.add(emptyObject5);
     
     // Add an AmbientLight to the scene
     ambientLight = new AmbientLight(0x090909);
@@ -146,7 +176,12 @@ function gameLoop(): void {
 
     sphere.rotation.y += .04;//control.rotationSpeed;
     emptyObject.rotation.y+=.02;//control.rotationSpeed;
+    emptyObject3.rotation.y+=.03;
+    emptyObject4.rotation.y+=.001;
+    emptyObject5.rotation.y+=.005;
    // sphere.rotation.y+=2;
+    
+    camera.position=sphere.position;
     
     // render using requestAnimationFrame
     requestAnimationFrame(gameLoop);
@@ -171,7 +206,8 @@ function setupCamera(): void {
     //camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.x = 0.6;
     camera.position.y = 16;
-    camera.position.z = -20.5;
+    camera.position.z = -40.5;
     camera.lookAt(new Vector3(0, 0, 0));
+    // camera.lookAt(new Vector3(sphere.position.x,sphere.position.y,sphere.position.z));
     console.log("Finished setting up Camera...");
 }
