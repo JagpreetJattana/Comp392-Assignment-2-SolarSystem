@@ -39,6 +39,7 @@ var childsphere2;
 var childsphere3;
 var childsphere4;
 var childsphere5;
+var childmoon;
 var sphereMaterial;
 var sphereGeometry;
 var childCube;
@@ -72,8 +73,13 @@ function init() {
     console.log("Added Plane Primitive to scene...");
     //  emptyObject.add(sphere);
     // var material = new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture('Scripts/textures/sun.jpg') } );
-    sphere = new gameObject(new SphereGeometry(3, 32, 32), new LambertMaterial({ color: 0xff35ff }), 0, 1, 0);
-    //  sphere=new gameObject(new SphereGeometry(2,32,32),new THREE.MeshPhongMaterial( { map: THREE.ImageUtils.loadTexture('Scripts/textures/sun.jpg') } ),0,1,0);
+    //  sphere=new gameObject(new SphereGeometry(3,32,32),new LambertMaterial({color:0xff35ff}),0,1,0);
+    var crateTexture = THREE.ImageUtils.loadTexture('Scripts/textures/sun.jpg');
+    var geometry = new THREE.SphereGeometry(0.5, 32, 32);
+    var material = new THREE.MeshPhongMaterial();
+    var earthMesh = new THREE.Mesh(geometry, material);
+    material.map = THREE.ImageUtils.loadTexture('Scripts/textures/sun.jpg');
+    sphere = new gameObject(new SphereGeometry(2, 32, 32), material, 0, 1, 0);
     childsphere1 = new gameObject(new SphereGeometry(.2, .2, .2), new LambertMaterial({ color: 0xff35ff }), 0, 1, 5);
     sphere.add(childsphere1);
     scene.add(sphere);
@@ -89,12 +95,14 @@ function init() {
     scene.add(emptyObject3);
     emptyObject4 = new Object3D();
     emptyObject4.position.set(0, 1, 0);
-    childsphere4 = new gameObject(new SphereGeometry(1.8, 32, 32), new LambertMaterial({ color: 0xff35ff }), 0, 1, 20);
+    childsphere4 = new gameObject(new SphereGeometry(1.8, 32, 32), new LambertMaterial({ color: 0xff35ff }), 0, 1, 18);
     emptyObject4.add(childsphere4);
     scene.add(emptyObject4);
     emptyObject5 = new Object3D();
     emptyObject5.position.set(0, 1, 0);
     childsphere5 = new gameObject(new SphereGeometry(.8, 32, 32), new LambertMaterial({ color: 0xff35ff }), 0, 1, 25);
+    childmoon = new gameObject(new SphereGeometry(.4, 32, 32), new LambertMaterial({ color: 0xff35ff }), 0, 1, 1);
+    childsphere5.add(childmoon);
     emptyObject5.add(childsphere5);
     scene.add(emptyObject5);
     // Add an AmbientLight to the scene
@@ -103,9 +111,16 @@ function init() {
     console.log("Added an Ambient Light to Scene");
     // Add a SpotLight to the scene
     spotLight = new SpotLight(0xffffff);
-    spotLight.position.set(5.6, 23.1, 5.4);
+    spotLight.position.set(75, 23.1, 5.4);
+    //spotLight.position.set(0,0,0);
     spotLight.rotation.set(-0.8, 42.7, 19.5);
     spotLight.castShadow = true;
+    spotLight.angle = 270 * (Math.PI / 180);
+    spotLight.distance = 200;
+    spotLight.intensity = 2;
+    spotLight.shadowCameraNear = 1;
+    spotLight.shadowMapHeight = 2048;
+    spotLight.shadowMapWidth = 2048;
     scene.add(spotLight);
     console.log("Added a SpotLight Light to Scene");
     // add controls
@@ -137,8 +152,9 @@ function gameLoop() {
     emptyObject3.rotation.y += .03;
     emptyObject4.rotation.y += .001;
     emptyObject5.rotation.y += .005;
+    childsphere5.rotation.x += .07;
     // sphere.rotation.y+=2;
-    camera.position = sphere.position;
+    //camera.position=sphere.position;
     // render using requestAnimationFrame
     requestAnimationFrame(gameLoop);
     // render the scene
