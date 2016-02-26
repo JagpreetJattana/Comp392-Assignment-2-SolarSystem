@@ -98,7 +98,7 @@ function init() {
     });
     childsphere1 = new gameObject(new SphereGeometry(.2, .2, .2), material1, 0, 1, 5);
     sphere.add(childsphere1);
-    scene.add(sphere);
+    // scene.add(sphere);
     emptyObject = new Object3D();
     emptyObject.position.set(0, 1, 0);
     var texture2 = THREE.ImageUtils.loadTexture('Scripts/textures/jupiter.jpg');
@@ -150,39 +150,44 @@ function init() {
     childmoon = new gameObject(new SphereGeometry(.4, 32, 32), material6, 0, 1, 1);
     childsphere5.add(childmoon);
     emptyObject5.add(childsphere5);
-    scene.add(emptyObject5);
-    emptyObject6 = new Object3D();
-    emptyObject6.position.set(0, 1, 0);
     emptyObject5.add(camera);
-    scene.add(emptyObject6);
+    scene.add(emptyObject5);
+    //  emptyObject6=new Object3D();
+    //  emptyObject6.position.set(0,1,0);
+    //  scene.add(emptyObject6);
     // Add an AmbientLight to the scene
     ambientLight = new AmbientLight(0x090909);
     scene.add(ambientLight);
     console.log("Added an Ambient Light to Scene");
+    var light = new THREE.PointLight(0xffffff, 2, 1000);
+    light.position.set(0, 0, 0);
+    light.castShadow = false;
+    light.add(sphere);
+    scene.add(light);
     // Add a SpotLight to the scene
     spotLight = new SpotLight(0xffffff);
     //  spotLight.position.set(75, 40, 5.4);
-    spotLight.position.set(75, 45, 0);
+    spotLight.position.set(0, 30, 0);
     //spotLight.rotation.set(-0.8, 42.7, 19.5);
     spotLight.lookAt(new Vector3(0, 0, 0));
     spotLight.castShadow = true;
-    spotLight.angle = 270 * (Math.PI / 180);
-    spotLight.distance = 200;
+    spotLight.angle = 10 * (Math.PI / 180);
+    spotLight.distance = 50;
     spotLight.intensity = 2;
-    spotLight.shadowCameraNear = 1;
-    spotLight.shadowMapHeight = 2048;
-    spotLight.shadowMapWidth = 2048;
+    //spotLight.shadowCameraNear = 1;
+    //spotLight.shadowMapHeight = 2048;
+    //spotLight.shadowMapWidth = 2048;
     scene.add(spotLight);
     spotLight2 = new SpotLight(0xffffff);
-    spotLight2.position.set(0, -75, 0);
+    spotLight2.position.set(0, -30, 0);
     spotLight2.lookAt(new Vector3(0, 0, 0));
     spotLight2.castShadow = true;
-    spotLight2.angle = 270 * (Math.PI / 180);
-    spotLight2.distance = 200;
+    spotLight2.angle = 10 * (Math.PI / 180);
+    spotLight2.distance = 50;
     spotLight2.intensity = 2;
-    spotLight2.shadowCameraNear = 1;
-    spotLight2.shadowMapHeight = 2048;
-    spotLight2.shadowMapWidth = 2048;
+    // spotLight2.shadowCameraNear = 1;
+    //spotLight2.shadowMapHeight = 2048;
+    //spotLight2.shadowMapWidth = 2048;
     scene.add(spotLight2);
     console.log("Added a SpotLight Light to Scene");
     // add controls
@@ -196,7 +201,7 @@ function init() {
     gameLoop(); // render the scene	
 }
 function addControl(controlObject) {
-    gui.add(controlObject, 'rotationSpeed', -0.5, 0.5);
+    gui.add(controlObject, 'rotationSpeed', -20, 20);
 }
 function addStatsObject() {
     stats = new Stats();
@@ -209,22 +214,27 @@ function addStatsObject() {
 // Setup main game loop
 function gameLoop() {
     stats.update();
-    sphere.rotation.y += .04; //control.rotationSpeed;
-    emptyObject.rotation.y += .02; //control.rotationSpeed;
-    emptyObject3.rotation.y += .03;
+    sphere.rotation.y += .001; //control.rotationSpeed;
+    emptyObject.rotation.y += .009; //control.rotationSpeed;
+    emptyObject3.rotation.y += .009;
     emptyObject4.rotation.y += .001;
     emptyObject5.rotation.y += .005;
     childsphere5.rotation.x += .07;
-    emptyObject6.rotation.y += .07;
+    //  emptyObject6.rotation.y+=.07;
+    childsphere1.rotation.y += .01;
+    childsphere2.rotation.y += .01;
+    childsphere3.rotation.y += .01;
+    childsphere4.rotation.y += .01;
     // sphere.rotation.y+=2;
-    //  camera.position.x=emptyObject4.position.x;
-    //  camera.position.y=emptyObject4.position.y;
-    //  camera.position.z=emptyObject4.position.z;
-    camera.lookAt(new Vector3(emptyObject5.position.x, emptyObject5.position.y, emptyObject5.position.z));
-    // camera.lookAt(new Vector3(0,0,0));
+    // camera.position.x=control.rotationSpeed;
+    //camera.position.z=control.rotationSpeed;
+    //  camera.position.y=emptyObject4.position.z;
+    // camera.lookAt(new Vector3(emptyObject5.position.x,emptyObject5.position.y,emptyObject5.position.z));
+    // camera.lookAt(new Vector3(0,1,25));
     // render using requestAnimationFrame
     requestAnimationFrame(gameLoop);
     // render the scene
+    renderer.setClearColor(0x000000, 0);
     renderer.render(scene, camera);
 }
 // Setup default renderer
@@ -240,13 +250,13 @@ function setupRenderer() {
 function setupCamera() {
     // camera = new PerspectiveCamera(45, config.Screen.RATIO, 0.1, 1000);
     //camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    //camera.position.x = 0.6;
-    // camera.position.y = 16;
-    // camera.position.z = -40.5;
-    camera.position.x = 0;
-    camera.position.y = 3;
-    camera.position.z = 35;
-    //camera.lookAt(new Vector3(0, 0, 0));
+    camera.position.x = 0.6;
+    camera.position.y = 16;
+    camera.position.z = -40.5;
+    // camera.position.x = -6;
+    // camera.position.y = 6;
+    // camera.position.z =35;
+    camera.lookAt(new Vector3(0, 0, 0));
     // camera.lookAt(new Vector3(sphere.position.x,sphere.position.y,sphere.position.z));
     console.log("Finished setting up Camera...");
 }
