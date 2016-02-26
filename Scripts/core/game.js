@@ -25,6 +25,8 @@ var Vector3 = THREE.Vector3;
 var Face3 = THREE.Face3;
 var Point = objects.Point;
 var CScreen = config.Screen;
+var Clock = THREE.Clock;
+var FirstPersonControls = THREE.FirstPersonControls;
 //Custom Game Objects
 var gameObject = objects.gameObject;
 var scene;
@@ -59,12 +61,34 @@ var emptyObject3;
 var emptyObject4;
 var emptyObject5;
 var emptyObject6;
+var clock;
+var firstPersonControls;
 function init() {
+    clock = new Clock();
     // Instantiate a new Scene object
     scene = new Scene();
     setupRenderer(); // setup the default renderer
     camera = new PerspectiveCamera(45, config.Screen.RATIO, 0.1, 1000);
     setupCamera(); // setup the camera
+    // setup first person controls
+    firstPersonControls = new FirstPersonControls(camera);
+    /* firstPersonControls.lookSpeed = 0.4;
+     firstPersonControls.movementSpeed = 10;
+     firstPersonControls.lookVertical = true;
+     firstPersonControls.constrainVertical = true;
+     firstPersonControls.verticalMin = 0;
+     firstPersonControls.verticalMax = 2.0;
+     firstPersonControls.lon = -150;
+     firstPersonControls.lat = 120;*/
+    firstPersonControls.movementSpeed = 70;
+    firstPersonControls.lookSpeed = 0.05;
+    firstPersonControls.noFly = true;
+    firstPersonControls.lookVertical = false;
+    firstPersonControls.activeLook = false;
+    firstPersonControls.lon = 180;
+    firstPersonControls.lat = 0;
+    firstPersonControls.phi = 0;
+    firstPersonControls.theta = 0;
     // add an axis helper to the scene
     axes = new AxisHelper(10);
     scene.add(axes);
@@ -150,7 +174,7 @@ function init() {
     childmoon = new gameObject(new SphereGeometry(.4, 32, 32), material6, 0, 1, 1);
     childsphere5.add(childmoon);
     emptyObject5.add(childsphere5);
-    emptyObject5.add(camera);
+    //  emptyObject5.add(camera);
     scene.add(emptyObject5);
     //  emptyObject6=new Object3D();
     //  emptyObject6.position.set(0,1,0);
@@ -214,6 +238,7 @@ function addStatsObject() {
 // Setup main game loop
 function gameLoop() {
     stats.update();
+    var delta = clock.getDelta();
     sphere.rotation.y += .001; //control.rotationSpeed;
     emptyObject.rotation.y += .009; //control.rotationSpeed;
     emptyObject3.rotation.y += .009;
@@ -226,10 +251,11 @@ function gameLoop() {
     childsphere3.rotation.y += .01;
     childsphere4.rotation.y += .01;
     // sphere.rotation.y+=2;
+    firstPersonControls.update(delta);
     // camera.position.x=control.rotationSpeed;
     //camera.position.z=control.rotationSpeed;
     //  camera.position.y=emptyObject4.position.z;
-    // camera.lookAt(new Vector3(emptyObject5.position.x,emptyObject5.position.y,emptyObject5.position.z));
+    camera.lookAt(new Vector3(childsphere5.position.x, childsphere5.position.y, childsphere5.position.z));
     // camera.lookAt(new Vector3(0,1,25));
     // render using requestAnimationFrame
     requestAnimationFrame(gameLoop);

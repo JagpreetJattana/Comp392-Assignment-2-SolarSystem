@@ -74,7 +74,7 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 
 	};
 
-	this.onMouseDown = function ( event ) {
+	/*this.onMouseDown = function ( event ) {
 
 		if ( this.domElement !== document ) {
 
@@ -118,7 +118,59 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 
 		this.mouseDragOn = false;
 
-	};
+	};*/
+    this.onMouseUp = function ( event ) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    if ( this.activeLook ) {
+
+        switch ( event.button ) {
+
+            case 0: 
+                this.mouseX = 0; 
+                break;
+            case 2: 
+                this.mouseY = 0; 
+                break;
+
+        }
+
+    }
+
+    this.mouseDragOn = false;
+
+};
+    this.onMouseDown = function ( event ) {
+
+    if ( this.domElement !== document ) {
+
+        this.domElement.focus();
+
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    if ( this.activeLook ) {
+
+        switch ( event.button ) {
+
+            case 0: 
+                this.mouseX = event.pageX - this.viewHalfX;
+                break;
+            case 2: 
+                //this.mouseY = event.pageY - this.viewHalfY;
+                break;
+
+        }
+
+    }
+
+    this.mouseDragOn = true;
+
+};
 
 	this.onMouseMove = function ( event ) {
 
@@ -278,7 +330,7 @@ THREE.FirstPersonControls = function ( object, domElement ) {
 	var _onKeyUp = bind( this, this.onKeyUp );
 
 	this.domElement.addEventListener( 'contextmenu', contextmenu, false );
-	this.domElement.addEventListener( 'mousemove', _onMouseMove, false );
+	//this.domElement.addEventListener( 'mousemove', _onMouseMove, false );
 	this.domElement.addEventListener( 'mousedown', _onMouseDown, false );
 	this.domElement.addEventListener( 'mouseup', _onMouseUp, false );
 
